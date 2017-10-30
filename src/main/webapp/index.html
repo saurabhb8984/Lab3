@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+</head>
+<body>
+<script>
+//function to call REST API and get data needed
+function callUrl(){
+	var lat = document.getElementById("latitude").value; //get entered latitude
+	var lon = document.getElementById("longitude").value; // get entered longitude
+	var settings = {
+			  "async": true,
+			  "crossDomain": true,
+			  "url": "http://localhost:8090/Lab3/lab3/nws/getInfo?lat="+lat+"&lon="+lon, //call REST web service
+			  "method": "GET",
+			}
+			//get response from REST web service
+			$.ajax(settings).done(function (response) {
+			  document.getElementById("maxT").value = response.maxT;
+			  document.getElementById("minT").value = response.minT;
+			  document.getElementById("dew").value = response.dewPoint;
+			  document.getElementById("pop12").value = response.pop12;
+			  document.getElementById("windSpeed").value = response.windSpeed;
+			  document.getElementById("windDir").value = response.windDir;
+			  document.getElementById("waveHeight").value = response.waveH;
+			});
+}
+</script>
+
+<!-- //form to enter latitude and longitude -->
+<form>  
+  Latitude:<br>
+  <input type="text" id="latitude" name="latitude" value="39.00">
+  <br>
+  Longitude:<br>
+  <input type="text" id="longitude" name="longitude" value="-77.00">
+  <br><br>
+  <button type="button" onclick="callUrl();">Submit</button> 
+  <button type="button" onclick="callUrl();">Refresh</button>
+</form> 
+<!-- Display received values on UI -->
+<h3>Max Temperature: <input type="text" id="maxT">Fahrenheit</h3>
+<h3>Min Temperature: <input type="text" id="minT" >Fahrenheit</h3>
+<h3>Dew Point: <input type="text" id="dew" >Fahrenheit</h3>
+<h3>POP 12: <input type="text" id="pop12" >Percent</h3>
+<h3>Wind Speed: <input type="text" id="windSpeed">Knots</h3>
+<h3>Wind Direction: <input type="text" id="windDir">Degrees True</h3>
+<h3>Wave Height: <input type="text" id="waveHeight"></h3>
+
+<h4>Note: "/" is only for representational purpose. Please change port number of server in index.html file</h4>
+</body>
+</html>
